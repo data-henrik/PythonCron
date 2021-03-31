@@ -4,6 +4,8 @@ The file [dispatch.py](dispatch.py) implements a small dispatcher to demonstrate
 
 It uses the deployed [Twitter Bot](https://github.com/data-henrik/twitterBot/tree/feed) as target. The request and its payload cause a new Twitter status update (tweet) to be generated.
 
+![Architecture diagram](Python-cron-architecture.png)
+
 ### IBM Cloud Functions setup
 
 1. Optionally create, then target a functions namespace:
