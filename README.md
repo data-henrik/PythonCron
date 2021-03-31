@@ -6,19 +6,28 @@ It uses the deployed [Twitter Bot](https://github.com/data-henrik/twitterBot/tre
 
 ### IBM Cloud Functions setup
 
-```
-ibmcloud fn namespace target bot
-```
+1. Optionally create, then target a functions namespace:
+   ```
+   ibmcloud fn namespace target bot
+   ```
+2. Create / update the new action:
+   ```
+   ibmcloud fn action update dispatch dispatch.py --kind python:default
+   ```
+3. Create a new trigger based on the alarm package.
+   ```
+   ibmcloud fn trigger create cf_tweety --feed /whisk.system/alarms/alarm --param cron "22 10 * * *" 
+   --param trigger_payload '{"CE_TWEET": { "url":"https://twitterbot.xxxxxxxxxx.us-south.codeengine.appdomain.cloud/tweet", "payload":{"secret_key":"SET_YOUR_SECRET","tweet_string2":"Triggered by #OpenWhisk and dispatched in #Python on #IBMCloud" }}}'
+   ```
+4. Associate trigger and action by rule:
+   ```
+   ibmcloud fn rule create myTweetRule cf_tweety dispatch
+   ```
+
+### Local Testing
+
+Once the action is created / updated, you can invoke it locally like this. Adapt [params.json.sample](params.json.sample) to your needs.
 
 ```
-ibmcloud fn action update dispatch dispatch.py --kind python:default
+ibmcloud fn action invoke dispatch -r --param-file params.json
 ```
-
-```
-ibmcloud fn trigger create cf_tweety --feed /whisk.system/alarms/alarm --param cron "22 10 * * *" --param trigger_payload '{"CE_TWEET": { "url":"https://twitterbot.7aervajuhho.us-south.codeengine.appdomain.cloud/tweet", "payload":{"secret_key":"LET_ME_TWEET","tweet_string2":"Triggered by #OpenWhisk and dispatched in #Python on #IBMCloud" }}}'
-```
-
-```
-ibmcloud fn rule create myTweetRule cf_tweety dispatch
-```
-

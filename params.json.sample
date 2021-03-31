@@ -1,0 +1,9 @@
+{"CE_TWEET":
+    {
+        "url":"https://twitterbot.xxxxxxx.us-south.codeengine.appdomain.cloud/tweet",
+        "payload":{
+            "secret_key":"SET_YOUR_SECRET",
+            "tweet_string2":"Written in #Golang and running on #IBMCloud #CodeEngine"
+        }
+    }
+}
